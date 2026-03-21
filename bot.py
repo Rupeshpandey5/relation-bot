@@ -1,6 +1,7 @@
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 import random
+import os
 
 # ---------------- TRUTH & DARE ---------------- #
 
@@ -53,145 +54,88 @@ DARES = [
 # ---------------- RELATIONS ---------------- #
 
 RELATIONS = [
-    "🤝 Besties",
-    "🖤 Toxic & Loyal",
-    "😈 Devil & Angel",
-    "👑 King & Killer Queen",
-    "🐍 Snake & Charmer",
-    "⚡ Thunder & Lightning",
-    "😎 Boss & Queen",
-    "🤪 Drama King & Queen",
-    "🔥 Fire & Spark",
-    "🐒 Monkey & Banana",
-    "🍕 Pizza & Coke",
-    "🎧 DJ & Listener",
-    "💕 Love Birds",
-    "💖 Soulmates",
-    "💘 Heartbeat Duo",
-    "💞 Forever Pair",
-    "🌹 Rose & Thorn",
-    "🌙 Moon & Star",
-    "☀️ Sun & Sunshine",
-    "Best Friends Forever 🤝",
-    "Chill Buddy 😎",
-    "Lucky Pair 🍀",
-    "Study Partners 📚",
-    "College Buddies 🎓",
-    "Secret Supporters 🤫",
-    "Power Duo 💪",
-    "Dream Team 🌈"
+    "🤝 Besties", "🖤 Toxic & Loyal", "😈 Devil & Angel",
+    "👑 King & Killer Queen", "🐍 Snake & Charmer",
+    "⚡ Thunder & Lightning", "😎 Boss & Queen",
+    "🤪 Drama King & Queen", "🔥 Fire & Spark",
+    "🐒 Monkey & Banana", "🍕 Pizza & Coke",
+    "🎧 DJ & Listener", "💕 Love Birds",
+    "💖 Soulmates", "💘 Heartbeat Duo",
+    "💞 Forever Pair", "🌹 Rose & Thorn",
+    "🌙 Moon & Star", "☀️ Sun & Sunshine",
+    "Best Friends Forever 🤝", "Chill Buddy 😎",
+    "Lucky Pair 🍀", "Study Partners 📚",
+    "College Buddies 🎓", "Secret Supporters 🤫",
+    "Power Duo 💪", "Dream Team 🌈"
 ]
 
 # ---------------- COMMAND FUNCTIONS ---------------- #
 
 async def truth(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    question = random.choice(TRUTHS)
-    await update.message.reply_text(f"🧐 Truth:\n\n{question}")
+    await update.message.reply_text(f"🧐 Truth:\n\n{random.choice(TRUTHS)}")
 
 async def dare(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    task = random.choice(DARES)
-    await update.message.reply_text(f"🔥 Dare:\n\n{task}")
+    await update.message.reply_text(f"🔥 Dare:\n\n{random.choice(DARES)}")
 
 async def relation(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat = update.effective_chat
 
     if chat.type not in ["group", "supergroup"]:
-        await context.bot.send_message(
-            chat_id=chat.id,
-            text="Ye command sirf group me kaam karti hai ❌"
-        )
+        await context.bot.send_message(chat_id=chat.id, text="Ye command sirf group me kaam karti hai ❌")
         return
 
     admins = await context.bot.get_chat_administrators(chat.id)
     users = [admin.user for admin in admins]
 
     if len(users) < 2:
-        await context.bot.send_message(
-            chat_id=chat.id,
-            text="Group me kam se kam 2 admin hone chahiye 😅"
-        )
+        await context.bot.send_message(chat_id=chat.id, text="Kam se kam 2 admin hone chahiye 😅")
         return
 
     u1, u2 = random.sample(users, 2)
-    relation_name = random.choice(RELATIONS)
 
     msg = (
         f"💞 Random Relation Found! 💞\n\n"
         f"👤 {u1.mention_html()} 🤝 {u2.mention_html()}\n"
-        f"🔗 Relation: <b>{relation_name}</b>"
+        f"🔗 Relation: <b>{random.choice(RELATIONS)}</b>"
     )
 
-    await context.bot.send_message(
-        chat_id=chat.id,
-        text=msg,
-        parse_mode="HTML"
-    )
+    await context.bot.send_message(chat_id=chat.id, text=msg, parse_mode="HTML")
 
 async def pair(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat = update.effective_chat
 
     if chat.type not in ["group", "supergroup"]:
-        await context.bot.send_message(
-            chat_id=chat.id,
-            text="Ye command sirf group me kaam karti hai ❌"
-        )
+        await context.bot.send_message(chat_id=chat.id, text="Ye command sirf group me kaam karti hai ❌")
         return
 
     admins = await context.bot.get_chat_administrators(chat.id)
     users = [admin.user for admin in admins]
 
     if len(users) < 2:
-        await context.bot.send_message(
-            chat_id=chat.id,
-            text="Kam se kam 2 admin hone chahiye 😅"
-        )
+        await context.bot.send_message(chat_id=chat.id, text="Kam se kam 2 admin hone chahiye 😅")
         return
 
     u1, u2 = random.sample(users, 2)
 
     pair_names = [
-        "🔥 Fire & Spark",
-        "🌙 Moon & Star",
-        "😎 Boss & Queen",
-        "💘 Crush Couple",
-        "✨ Golden Duo",
-        "👑 King & Queen",
-        "💞 Dil & Dhadkan",
-        "🫶 Bestie Pair",
-        "🤝 Besties",
-        "MOTU AND PATLU",
-        "🖤 Toxic & Loyal",
-        "😈 Devil & Angel",
-        "👑 King & Killer Queen",
-        "🤪 Drama King & Queen",
-        "🐒 Monkey & Banana",
-        "🍕 Pizza & Coke",
-        "🎧 DJ & Listener",
-        "💕 Love Birds",
-        "💖 Soulmates",
-        "💘 Heartbeat Duo",
-        "💞 Forever Pair",
-        "🌹 Rose & Thorn",
-        "☀️ Sun & Sunshine"
+        "🔥 Fire & Spark", "🌙 Moon & Star", "😎 Boss & Queen",
+        "💘 Crush Couple", "✨ Golden Duo", "👑 King & Queen"
     ]
-
-    pair_name = random.choice(pair_names)
 
     msg = (
         "💘 Special Pair 💘\n\n"
         f"{u1.mention_html()} ❤️ {u2.mention_html()}\n\n"
-        f"✨ <b>{pair_name}</b>"
+        f"✨ <b>{random.choice(pair_names)}</b>"
     )
 
-    await context.bot.send_message(
-        chat_id=chat.id,
-        text=msg,
-        parse_mode="HTML"
-    )
+    await context.bot.send_message(chat_id=chat.id, text=msg, parse_mode="HTML")
 
 # ---------------- MAIN ---------------- #
 
-TOKEN = "PASTE_YOUR_NEW_TOKEN_HERE"
+TOKEN = os.getenv("TOKEN")  # Runny AI se aayega
+
+if not TOKEN:
+    raise ValueError("❌ TOKEN environment variable not set!")
 
 app = ApplicationBuilder().token(TOKEN).build()
 
