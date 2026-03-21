@@ -96,14 +96,20 @@ async def relation(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat = update.effective_chat
 
     if chat.type not in ["group", "supergroup"]:
-        await update.message.reply_text("Ye command sirf group me kaam karti hai ❌")
+        await context.bot.send_message(
+            chat_id=chat.id,
+            text="Ye command sirf group me kaam karti hai ❌"
+        )
         return
 
     admins = await context.bot.get_chat_administrators(chat.id)
     users = [admin.user for admin in admins]
 
     if len(users) < 2:
-        await update.message.reply_text("Group me kam se kam 2 admin hone chahiye 😅")
+        await context.bot.send_message(
+            chat_id=chat.id,
+            text="Group me kam se kam 2 admin hone chahiye 😅"
+        )
         return
 
     u1, u2 = random.sample(users, 2)
@@ -115,20 +121,30 @@ async def relation(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"🔗 Relation: <b>{relation_name}</b>"
     )
 
-    await update.message.reply_html(msg)
+    await context.bot.send_message(
+        chat_id=chat.id,
+        text=msg,
+        parse_mode="HTML"
+    )
 
 async def pair(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat = update.effective_chat
 
     if chat.type not in ["group", "supergroup"]:
-        await update.message.reply_text("Ye command sirf group me kaam karti hai ❌")
+        await context.bot.send_message(
+            chat_id=chat.id,
+            text="Ye command sirf group me kaam karti hai ❌"
+        )
         return
 
     admins = await context.bot.get_chat_administrators(chat.id)
     users = [admin.user for admin in admins]
 
     if len(users) < 2:
-        await update.message.reply_text("Kam se kam 2 admin hone chahiye 😅")
+        await context.bot.send_message(
+            chat_id=chat.id,
+            text="Kam se kam 2 admin hone chahiye 😅"
+        )
         return
 
     u1, u2 = random.sample(users, 2)
@@ -167,12 +183,15 @@ async def pair(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"✨ <b>{pair_name}</b>"
     )
 
-    await update.message.reply_html(msg)
+    await context.bot.send_message(
+        chat_id=chat.id,
+        text=msg,
+        parse_mode="HTML"
+    )
 
 # ---------------- MAIN ---------------- #
 
-import os
-TOKEN = os.getenv("TOKEN")
+TOKEN = "PASTE_YOUR_NEW_TOKEN_HERE"
 
 app = ApplicationBuilder().token(TOKEN).build()
 
