@@ -50,7 +50,6 @@ DARES = [
     "Aaj ka time batao jab uthe the ⏰"
 ]
 
-# ---------------- RELATIONS ---------------- #
 RELATIONS = [
     "🤝 Besties", "🖤 Toxic & Loyal", "😈 Devil & Angel",
     "👑 King & Killer Queen", "🐍 Snake & Charmer", "⚡ Thunder & Lightning",
@@ -72,38 +71,29 @@ def dare(update: Update, context: CallbackContext):
 
 def relation(update: Update, context: CallbackContext):
     chat = update.effective_chat
-
     if chat.type not in ["group", "supergroup"]:
         update.message.reply_text("Ye command sirf group me kaam karti hai ❌")
         return
 
     admins = context.bot.get_chat_administrators(chat.id)
     users = [admin.user for admin in admins]
-
     if len(users) < 2:
         update.message.reply_text("Kam se kam 2 admin hone chahiye 😅")
         return
 
     u1, u2 = random.sample(users, 2)
     relation_name = random.choice(RELATIONS)
-
-    msg = (
-        f"💞 Random Relation Found! 💞\n\n"
-        f"👤 {u1.first_name} 🤝 {u2.first_name}\n"
-        f"🔗 Relation: {relation_name}"
-    )
+    msg = f"💞 Random Relation Found! 💞\n\n👤 {u1.first_name} 🤝 {u2.first_name}\n🔗 Relation: {relation_name}"
     update.message.reply_text(msg)
 
 def pair(update: Update, context: CallbackContext):
     chat = update.effective_chat
-
     if chat.type not in ["group", "supergroup"]:
         update.message.reply_text("Ye command sirf group me kaam karti hai ❌")
         return
 
     admins = context.bot.get_chat_administrators(chat.id)
     users = [admin.user for admin in admins]
-
     if len(users) < 2:
         update.message.reply_text("Kam se kam 2 admin hone chahiye 😅")
         return
@@ -115,23 +105,18 @@ def pair(update: Update, context: CallbackContext):
         "💞 Dil & Dhadkan","🫶 Bestie Pair","🤝 Besties"
     ]
     pair_name = random.choice(pair_names)
-
-    msg = (
-        "💘 Special Pair 💘\n\n"
-        f"{u1.first_name} ❤️ {u2.first_name}\n\n"
-        f"✨ {pair_name}"
-    )
+    msg = f"💘 Special Pair 💘\n\n{u1.first_name} ❤️ {u2.first_name}\n\n✨ {pair_name}"
     update.message.reply_text(msg)
 
 # ---------------- MAIN ---------------- #
 TOKEN = os.getenv("TOKEN")
-if not TOKEN:
-    raise ValueError("❌ TOKEN environment variable not set!")
+if not TOKEN or len(TOKEN.split(":")) != 2:
+    raise ValueError("❌ Invalid TOKEN! Make sure you use the correct Telegram Bot Token.")
 
 updater = Updater(TOKEN, use_context=True)
 dp = updater.dispatcher
 
-# ---------------- ADD HANDLERS (LEFT-ALIGNED) ---------------- #
+# Add command handlers
 dp.add_handler(CommandHandler("truth", truth))
 dp.add_handler(CommandHandler("dare", dare))
 dp.add_handler(CommandHandler("relation", relation))
